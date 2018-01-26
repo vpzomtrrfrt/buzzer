@@ -2,6 +2,8 @@
 
 A little buzzer app for running your own quizzes or game shows! Uses websockets to sent messages.
 
+This fork adds a package-lock.json and plays a sound using SoX's `play` (included beep.mp3 from [Mike Kroenig on SoundBible](http://soundbible.com/1540-Computer-Error-Alert.html)
+
 ## Running the app
 
 You'll need [Node.js](https://nodejs.org) or [Docker](https://www.docker.com/) to run this

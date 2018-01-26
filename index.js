@@ -1,10 +1,12 @@
 const http = require('http')
 const express = require('express')
 const socketio = require('socket.io')
+const playSound = require('play-sound')
 
 const app = express();
 const server = http.Server(app);
 const io = socketio(server);
+const player = playSound({player: "play"});
 
 const title = 'Buffer Buzzer'
 
@@ -17,6 +19,10 @@ const getData = () => Object.keys(data).reduce((d, key) => {
   d[key] = data[key] instanceof Set ? [...data[key]] : data[key]
   return d
 }, {})
+
+function beep() {
+  player.play("beep.mp3")
+}
 
 app.use(express.static('public'))
 app.set('view engine', 'pug')
@@ -32,6 +38,7 @@ io.on('connection', (socket) => {
   })
 
   socket.on('buzz', (user) => {
+    if(data.buzzes.size < 1) beep()
     data.buzzes.add(`${user.name}-${user.team}`)
     io.emit('buzzes', [...data.buzzes])
     console.log(`${user.name} buzzed in!`)
